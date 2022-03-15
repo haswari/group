@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<title>TITLE</title>
+
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+
+<script type="text/javascript" src="http://static.tumblr.com/jtjo2yx/aYomn3pzq/isotope.js"></script>
+
+<link href='http://fonts.googleapis.com/css?family=Roboto+Slab:400,700' rel='stylesheet' type='text/css'>
+
+<!-----------------------------------------------------
+
+ATTENTION:
+
+touch the function only if you know what you're doing
+
+and you want to add more SORTING fields
+
+your FILTERS can be edited later (and more easily)
+
+-------------------------------------------------------->
+
+<script type="text/javascript">
+
+$(function(){
+
+var $container = $('#container');
+
+$container.isotope({
+
+itemSelector : '.box',
+
+getSortData : {
+
+title : function( $elem ) {
+
+return $elem.attr('data-title');
+
+},
+
+date : function( $elem ) {
+
+return parseInt( $elem.find('.date').text(), 10 );
+
+},
+
+author : function ( $elem ) {
+
+return $elem.find('.author').text();
+
+}
+
+}
+
+});
+
+var $optionSets = $('#options .option-set'),
+
+$optionLinks = $optionSets.find('a');
+
+$optionLinks.click(function(){
+
+var $this = $(this);
+
+// don't proceed if already selected
+
+if ( $this.hasClass('selected') ) {
+
+return false;
+
+}
+
+var $optionSet = $this.parents('.option-set');
+
+$optionSet.find('.selected').removeClass('selected');
+
+$this.addClass('selected');
+
+// make option object dynamically, i.e. { filter: '.my-filter-class' }
+
+var options = {},
+
+key = $optionSet.attr('data-option-key'),
+
+value = $this.attr('data-option-value');
+
+// parse 'false' as false boolean
+
+value = value === 'false' ? false : value;
+
+options[ key ] = value;
+
+if ( key === 'layoutMode' && typeof changeLayoutMode === 'function' ) {
+
+// changes in layout modes need extra logic
+
+changeLayoutMode( $this, options )
+
+} else {
+
+// otherwise, apply new options
+
+$container.isotope( options );
+
+}
+
+return false;
+
+});
+
+});
+
+</script>
+
+</head>
+
+<style type="text/css">
+
+body {
+
+background: #FDECF6;
+
+color: #747474;
+
+font-family: Roboto Slab, serif;
+
+font-size: 9px;
+
+}
+
+span.date, span.author {display:none;}
+
+#content {
+
+width: 95%;
+
+margin: 0 auto;
+
+margin-top: 0px;
+
+}
+
+#container{
+
+margin-left: 170px;
+
+width: 85%;
+
+opacity: 0.95;
+
+margin-top: 25px;
+
+margin-bottom: 25px;}
+
+#sidebar{
+
+float: left;
+
+width: 120px;
+
+margin-left: 0px;
+
+margin-top: 10px;
+
+position: fixed;
+
+padding: 10px 5px 0 5px;
+
+text-align: left;
+
+line-height: 16px;
+
+text-align: center;
+
+background-color: #ffffff;
+
+height:500px;
+
+overflow: scroll;}
+
+h3{text-transform: uppercase;
+
+margin-bottom: -15px;
+
+padding: 5px;
+
+color: #000;
+
+font-size: 11px;}
+
+ul{
+
+list-style:none;
+
+margin-left: -40px;}
+
+.box img{text-align: center;
+
+width: 130px;
+
+height: 130;}
+
+.box {
+
+color: #212121;
+
+padding: 0;
+
+float: left;
+
+margin: 5px;
+
+width: 130px;
+
+height: auto;
+
+background: #fdecf6;
+
+border: 0px solid #787878;
+
+}
+
+#options{
+
+margin-top: -5px;
+
+background: #ffffff;
+
+}
+
+#options a{
+
+color: #747474;
+
+text-decoration: none;
+
+background:#fffff;
+
+padding: 2px 5px 2px 5px;
+
+display: block;}
+
+#options a:hover{
+
+color: #000;
+
+background:#fff;
+
+padding: 2px 5px 2px 5px;}
+
+ul.links{
+
+margin-top: 5px;}
+
+.hullo{
+
+background: white;}
+
+.themeby {
+
+bottom: 0;
+
+float: right;
+
+font-size: 8px;
+
+padding: 4px;
+
+position: fixed;
+
+right: 5px;
+
+text-transform: lowercase;}
+
+.themeby a{
+
+text-decoration:none;
+
+color:#000;}
+
+.themeby a:hover{
+
+text-decoration:none;
+
+color:#747474;
+
+background: #ffffff;}
+
+.isotope-item {
+
+z-index: 2;
+
+}
+
+.isotope-hidden.isotope-item {
+
+pointer-events: none;
+
+z-index: 1;
+
+}
+
+.isotope,
+
+.isotope .isotope-item {
+
+/* change duration value to whatever you like */
+
+-webkit-transition-duration: 0.8s;
+
+-moz-transition-duration: 0.8s;
+
+transition-duration: 0.8s;
+
+}
+
+.isotope {
+
+-webkit-transition-property: height, width;
+
+-moz-transition-property: height, width;
+
+transition-property: height, width;
+
+}
+
+.isotope .isotope-item {
+
+-webkit-transition-property: -webkit-transform, opacity;
+
+-moz-transition-property: -moz-transform, opacity;
+
+transition-property: transform, opacity;
+
+}
+
+</style>
+
+<body>
+
+<section id="content">
+
+<div id="sidebar">
+
+<section id="options" class="clearfix">
+
+<ul class="links">
+
+<!-----------------------------------------------------
+
+You can put all the links you want here,
+
+you just have to manually put the link of the url
+
+and the name or whatever you want it to say :)
+
+-------------------------------------------------------->
+
+</ul>
+
+<h3>Names</h3>
+
+<ul id="filters" class="option-set clearfix" data-option-key="filter">
+
+<li><a href="#filter" data-option-value="*">ALL</a></li>
+
+<li><a href="#filter" data-option-value=".name1">Name1</a></li>
+
+<li><a href="#filter" data-option-value=".name2">Name2</a></li>
+
+<li><a href="#filter" data-option-value=".name3">Name3</a></li>
+
+</ul>
+
+<!--
+
+<li><a href="#filter" data-option-value=".X">X</a></li>
+
+<h3>Sample</h3>
+
+<ul id="filters" class="option-set clearfix" data-option-key="filter">
+
+<li><a href="#filter" data-option-value=".code">Text</a></li>
+
+<li><a href="#filter" data-option-value=".code">Text</a></li>
+
+</ul>
+
+-->
+
+</section> </div>
+
+<div id="container">
+
+<!--
+
+<div class="box details details" data-title=""><a title="NAME, etc, etc"><img src="PIC"></a>
+
+</div>
+
+-->
+
+<div class="box details details" data-title=""><a title="NAME, etc, etc"><img src="PIC"></a>
+
+</div>
+
+<div class="box details details" data-title=""><a title="NAME, etc, etc"><img src="PIC"></a>
+
+</div>
+
+<div class="box details details" data-title=""><a title="NAME, etc, etc"><img src="PIC"></a>
+
+</div>
+
+</div>
+
+<div class="themeby"><a href="http://purplu.tumblr.com">theme</a></div>
+
+</body>
+
+</html>
+
